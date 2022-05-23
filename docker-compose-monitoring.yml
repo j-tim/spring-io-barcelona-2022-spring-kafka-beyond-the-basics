@@ -1,0 +1,44 @@
+version: '3.7'
+
+# On linux make sure you have set DOCKER_HOST_IP=172.17.0.1
+# Get the correct IP address from docker0 interface by executing: ifconfig
+
+services:
+
+  # This docker-compose file contains all the monitoring setup.
+  # Please remember the Kafka service is already configured to expose metrics see docker-compose.yml!
+  # To run the stack with monitoring: docker-compose -f docker-compose.yml -f docker-compose-monitoring.yml up -d
+
+  # https://hub.docker.com/r/grafana/grafana
+  # http://localhost:3000
+  grafana:
+    image: grafana/grafana:7.5.15
+    container_name: grafana
+    environment:
+      TZ: ${TZ}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: "Admin"
+    ports:
+      - 3000:3000
+    volumes:
+      - ${PWD}/monitoring/grafana/provisioning/datasources/grafana-datasource.yml:/etc/grafana/provisioning/datasources/grafana-datasource.yml
+      - ${PWD}/monitoring/grafana/provisioning/dashboards/grafana-dashboard.yml:/etc/grafana/provisioning/dashboards/grafana-dashboard.yml
+      - ${PWD}/monitoring/grafana/dashboards:/etc/grafana/dashboards
+    depends_on:
+      - prometheus
+
+  # https://hub.docker.com/r/prom/prometheus
+  # http://localhost:9090
+  prometheus:
+    image: prom/prometheus:v2.35.0
+    container_name: prometheus
+    environment:
+      TZ: ${TZ}
+    ports:
+      - 9090:9090
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      -  ${PWD}/monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>nl.jtim</groupId>
+	<artifactId>spring-io-barcelona-2022-talk</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>spring-io-barcelona-2022-talk</name>
+	<description>Spring Kafka project for Spring I/O 2022 Barcelona talk</description>
+	<properties>
+		<java.version>11</java.version>
+	</properties>
+
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>avro-model</module>
+		<module>spring-kafka-consumer</module>
+		<module>spring-kafka-producer</module>
+		<module>spring-kafka-streams</module>
+	</modules>
+
+</project>

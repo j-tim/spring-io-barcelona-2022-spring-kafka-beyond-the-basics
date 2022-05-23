@@ -1,0 +1,57 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: consumer-application
+
+  kafka:
+    bootstrap-servers: localhost:9092
+
+    producer:
+      # Important!
+      # In case you publish to a 'dead letter topic' your consumer application becomes
+      # a producer as well! So you need to specify the producer properties!
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+
+    consumer:
+      group-id: my-consumer-group
+      auto-offset-reset: earliest
+      # Configures the Spring Kafka ErrorHandlingDeserializer that delegates to the 'real' deserializers
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      # Uncomment to protect against deserialization exception
+#      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+#      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        # Tells Kafka / Schema Registry that we will be using a specific Avro type
+        # otherwise Kafka will expect GenericRecord to be used on the topic.
+        specific.avro.reader: true
+#         Delegate deserializers
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+        spring.deserializer.value.delegate.class: io.confluent.kafka.serializers.KafkaAvroDeserializer
+
+    properties:
+      schema.registry.url: http://localhost:8081
+
+# Open up all Spring Boot Actuator endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  endpoint:
+    health:
+      show-details: always
+
+  metrics:
+    tags:
+      application: ${spring.application.name}
+      env: local
+
+
+logging:
+  level:
+    org.springframework.kafka.listener.DeadLetterPublishingRecoverer: debug

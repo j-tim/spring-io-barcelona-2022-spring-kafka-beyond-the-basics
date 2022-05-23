@@ -1,0 +1,39 @@
+### Check Schema registry is up and running
+
+GET http://localhost:8081
+Accept: application/json
+
+### Show subjects
+
+GET http://localhost:8081/subjects
+Accept: application/json
+
+### Delete subject
+
+DELETE http://localhost:8081/subjects/stock-quotes-value/versions/1?permanent=true
+
+### Delete most recent
+
+DELETE http://localhost:8081/subjects/stock-quotes-value/versions/latest
+
+### Show versions
+
+GET http://localhost:8081/subjects/stock-quotes-value/versions
+
+### Show schema of specific subject version
+
+GET http://localhost:8081/subjects/stock-quotes-value/versions/1
+
+### Show schema of specific subject version 2
+
+GET http://localhost:8081/subjects/stock-quotes-value/versions/2
+
+### Show schemas
+
+GET http://localhost:8081/schemas
+Accept: application/json
+
+### Show schema by specific id
+
+GET http://localhost:8081/schemas/ids/1
+Accept: application/json

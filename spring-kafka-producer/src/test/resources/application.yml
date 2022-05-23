@@ -1,0 +1,7 @@
+spring:
+  kafka:
+    bootstrap-servers: ${spring.embedded.kafka.brokers}
+
+  # We don't want to send spans to Zipkin in Spring Boot tests!
+  zipkin:
+    enabled: false

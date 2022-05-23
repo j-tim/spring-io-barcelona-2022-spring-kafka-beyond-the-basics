@@ -1,0 +1,31 @@
+global:
+  scrape_interval: 15s # By default, scrape targets every 15 seconds.
+scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: [ 'localhost:9090' ]
+
+  - job_name: "kafka-broker"
+    static_configs:
+      - targets:
+          - "kafka:1234"
+        labels:
+          env: "local"
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: hostname
+        regex: '([^:]+)(:[0-9]+)?'
+        replacement: '${1}'
+
+  - job_name: 'producer'
+    scrape_interval: 15s
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'host.docker.internal:8080' ]
+
+  - job_name: 'consumer'
+    scrape_interval: 15s
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'host.docker.internal:8082' ]
