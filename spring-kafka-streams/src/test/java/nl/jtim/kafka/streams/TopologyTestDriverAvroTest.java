@@ -30,11 +30,11 @@ public class TopologyTestDriverAvroTest {
     private static final String MOCK_SCHEMA_REGISTRY_URL = "mock://" + SCHEMA_REGISTRY_SCOPE;
     private TopologyTestDriver topologyTestDriver;
 
-    private TestInputTopic<String, StockQuote> stockQuoteTopic;
-    private TestOutputTopic<String, StockQuote> stockQuoteNyseTopic;
-    private TestOutputTopic<String, StockQuote> stockQuoteNasdaqTopic;
-    private TestOutputTopic<String, StockQuote> stockQuoteAmsTopic;
-    private TestOutputTopic<String, StockQuote> stockQuoteOtherTopic;
+    private TestInputTopic<String, StockQuote> stockQuoteInputTopic;
+    private TestOutputTopic<String, StockQuote> stockQuoteNyseOutputTopic;
+    private TestOutputTopic<String, StockQuote> stockQuoteNasdaqOutputTopic;
+    private TestOutputTopic<String, StockQuote> stockQuoteAmsOutputTopic;
+    private TestOutputTopic<String, StockQuote> stockQuoteOtherOutputTopic;
 
     @BeforeEach
     void setUp() {
@@ -58,27 +58,27 @@ public class TopologyTestDriverAvroTest {
         avroStockQuoteSerde.configure(schemaRegistryProperties, false);
 
         // Define input and output topics to use in tests
-        stockQuoteTopic = topologyTestDriver.createInputTopic(
+        stockQuoteInputTopic = topologyTestDriver.createInputTopic(
                 STOCK_QUOTES_TOPIC_NAME,
                 stringSerde.serializer(),
                 avroStockQuoteSerde.serializer());
 
-        stockQuoteNyseTopic = topologyTestDriver.createOutputTopic(
+        stockQuoteNyseOutputTopic = topologyTestDriver.createOutputTopic(
                 STOCK_QUOTES_EXCHANGE_NYSE_TOPIC_NAME,
                 stringSerde.deserializer(),
                 avroStockQuoteSerde.deserializer());
 
-        stockQuoteNasdaqTopic = topologyTestDriver.createOutputTopic(
+        stockQuoteNasdaqOutputTopic = topologyTestDriver.createOutputTopic(
                 STOCK_QUOTES_EXCHANGE_NASDAQ_TOPIC_NAME,
                 stringSerde.deserializer(),
                 avroStockQuoteSerde.deserializer());
 
-        stockQuoteAmsTopic = topologyTestDriver.createOutputTopic(
+        stockQuoteAmsOutputTopic = topologyTestDriver.createOutputTopic(
                 STOCK_QUOTES_EXCHANGE_AMS_TOPIC_NAME,
                 stringSerde.deserializer(),
                 avroStockQuoteSerde.deserializer());
 
-        stockQuoteOtherTopic = topologyTestDriver.createOutputTopic(
+        stockQuoteOtherOutputTopic = topologyTestDriver.createOutputTopic(
                 STOCK_QUOTES_EXCHANGE_OTHER_TOPIC_NAME,
                 stringSerde.deserializer(),
                 avroStockQuoteSerde.deserializer());
@@ -94,14 +94,14 @@ public class TopologyTestDriverAvroTest {
     void stockQuoteFromAmsterdamStockExchangeEndUpOnTopicQuotesAmsTopic() {
         StockQuote stockQuote = new StockQuote("INGA", "AMS", "10.99", "EUR", "Description", Instant.now());
 
-        stockQuoteTopic.pipeInput(stockQuote.getSymbol(), stockQuote);
+        stockQuoteInputTopic.pipeInput(stockQuote.getSymbol(), stockQuote);
 
-        assertThat(stockQuoteAmsTopic.isEmpty()).isFalse();
-        assertThat(stockQuoteAmsTopic.getQueueSize()).isEqualTo(1L);
-        assertThat(stockQuoteAmsTopic.readValue()).isEqualTo(stockQuote);
+        assertThat(stockQuoteAmsOutputTopic.isEmpty()).isFalse();
+        assertThat(stockQuoteAmsOutputTopic.getQueueSize()).isEqualTo(1L);
+        assertThat(stockQuoteAmsOutputTopic.readValue()).isEqualTo(stockQuote);
 
-        assertThat(stockQuoteNyseTopic.isEmpty()).isTrue();
-        assertThat(stockQuoteNasdaqTopic.isEmpty()).isTrue();
-        assertThat(stockQuoteOtherTopic.isEmpty()).isTrue();
+        assertThat(stockQuoteNyseOutputTopic.isEmpty()).isTrue();
+        assertThat(stockQuoteNasdaqOutputTopic.isEmpty()).isTrue();
+        assertThat(stockQuoteOtherOutputTopic.isEmpty()).isTrue();
     }
 }
