@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.kafka.DefaultKafkaProducerFactoryC
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaOperations;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -24,6 +23,8 @@ import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 /**
  * Uncomment to demo the exception handling scenarios.
