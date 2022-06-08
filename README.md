@@ -2,6 +2,8 @@
 
 Codebase for [my talk on Spring I/O 2022](https://2022.springio.net/sessions/spring-kafka-beyond-the-basics-lessons-learned-on-our-kafka-journey-at-ing-bank) in Barcelona about Spring for Apache Kafka
 
+[Slides](https://speakerdeck.com/timvanbaarsen/spring-kafka-beyond-the-basics-lessons-learned-on-our-kafka-journey-at-ing-bank)
+
 ## Project modules and applications
 
 | Applications                   | Port | Avro  | Topic(s)      | Description                                                              |
