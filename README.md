@@ -10,7 +10,7 @@ Codebase for [my talk on Spring I/O 2022](https://2022.springio.net/sessions/spr
 |--------------------------------|------|-------|---------------|--------------------------------------------------------------------------|
 | spring-kafka-producer          | 8080 | YES   | stock-quotes  | Simple producer of random stock quotes using Spring Kafka & Apache Avro. |
 | spring-kafka-consumer          | 8082 | YES   | stock-quotes  | Simple consumer of stock quotes using using Spring Kafka & Apache Avro.  |
-| stock-quote-kafka-streams-avro | 8083 | YES   | stock-quotes  | Simple Kafka Streams application using Spring Kafka & Apache Avro.       |
+| spring-kafka-streams           | 8083 | YES   | stock-quotes  | Simple Kafka Streams application using Spring Kafka & Apache Avro.       |
 
 | Module     | Description                                                                                                                                                                                             |
 |------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
