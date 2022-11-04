@@ -4,6 +4,9 @@ Codebase for [my talk on Spring I/O 2022](https://2022.springio.net/sessions/spr
 
 [Slides](https://speakerdeck.com/timvanbaarsen/spring-kafka-beyond-the-basics-lessons-learned-on-our-kafka-journey-at-ing-bank)
 
+For a more up to date version please also take a look at the code base I used for my talk at JFall 2022: 
+[https://github.com/j-tim/jfall-2022-spring-kafka-beyond-the-basics](https://github.com/j-tim/jfall-2022-spring-kafka-beyond-the-basics)
+
 ## Project modules and applications
 
 | Applications                   | Port | Avro  | Topic(s)      | Description                                                              |
